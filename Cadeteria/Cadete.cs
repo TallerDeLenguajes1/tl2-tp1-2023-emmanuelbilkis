@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cadeteria
+namespace _Cadeteria
 {
     public class Cadete
     {
@@ -23,6 +23,15 @@ namespace Cadeteria
             this.Direccion = direccion;
             this.Telefono = telefono;
             this.Pedidos = pedidos;
+        }
+
+        public Cadete(int id, string nombre, string direccion, int telefono) 
+        {
+            this.id = id;
+            this.nombre = nombre;   
+            this.direccion = direccion;
+            this.telefono = telefono;
+            this.pedidos = new List<Pedido>();
         }
 
         public int Id { get => id; set => id = value; }
@@ -46,8 +55,7 @@ namespace Cadeteria
 
         public void EliminarPedido(int numeroPedido)
         {
-            //var elementoAEliminar = from pedido in this.Pedidos where pedido.Numero == numeroPedido select pedido;
-            var elementoAEliminar = this.Pedidos.FirstOrDefault(pedido => pedido.Numero == numeroPedido);
+            var elementoAEliminar = ObtenerPedidoPorNumero(numeroPedido);
             if (this.Pedidos.Remove(elementoAEliminar))
             {
                 Console.WriteLine("Se eliminó con éxito");
@@ -63,5 +71,16 @@ namespace Cadeteria
             var pedido = this.Pedidos.FirstOrDefault(pedido => pedido.Numero==numero);
             return pedido;
         } 
+
+        public string InformeCadete() 
+        {
+            string informe = $" - Informe Cadete {this.Nombre} - ID:{this.Id} - ";
+            foreach (var pedidoX in this.Pedidos)
+            {
+                informe = informe + "-" + pedidoX.Observacion + "-" + pedidoX.Numero + "-" + pedidoX.Estado + "-" + " | Datos Cliente" + pedidoX.VerDatosDelCliente();
+            }
+
+            return informe;
+        }
     }
 }

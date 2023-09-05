@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cadeteria
+namespace _Cadeteria
 {
     public class Pedido
     {
@@ -13,11 +13,11 @@ namespace Cadeteria
         private bool estado;
         private Cliente cliente;
 
-        public Pedido(int numero, string observacion, bool estado, List<Cliente> clientes, string nombre, string direccion, int telefono, string datosReferenciaDireccion)
+        public Pedido(int numero, string observacion, string nombre, string direccion, int telefono, string datosReferenciaDireccion)
         {
             this.numero = numero;
             this.observacion = observacion;
-            this.estado = estado;
+            this.estado = false;
             Cliente clienteAsignado = new Cliente(nombre, direccion, telefono, datosReferenciaDireccion);
             this.Cliente = clienteAsignado;
         }
@@ -37,6 +37,13 @@ namespace Cadeteria
             string datos = this.Cliente.Nombre + "-" + this.cliente.Telefono 
              + "-" + this.cliente.Direccion + "-" + this.cliente.DatosReferenciaDireccion;
             return datos;   
+        }
+
+        public string GenerarInformePedido()
+        {
+            string informe = $"Numero:{this.Numero} | Observacion:{this.Observacion} | Estado:{this.Estado}";
+            informe = informe + "| Datos CLiente: " + this.VerDatosDelCliente();
+            return informe;
         }
 
     }
