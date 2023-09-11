@@ -29,7 +29,7 @@ namespace _Cadeteria
 
         public string GetInformacionCadete() 
         {
-            string info = $" - Informe Cadete {this.Nombre} - ID:{this.Id} - ";
+            string info = $"Cadete: {this.Nombre} - ID: {this.Id}";
             return info;
         }
     }

@@ -20,6 +20,7 @@ namespace _Cadeteria
             this.Nombre = nombre;
             this.Telefono = telefono;
             this.Cadetes = cadetes;
+            this.Pedidos = new List<Pedido>();
         }
 
         public Cadeteria(string nombre, int telefono)
@@ -27,6 +28,7 @@ namespace _Cadeteria
             this.Nombre = nombre;
             this.Telefono = telefono;
             this.Cadetes = new List<Cadete>();
+            this.Pedidos = new List<Pedido>();
         }
 
         public string Nombre { get => nombre; set => nombre = value; }
@@ -34,25 +36,26 @@ namespace _Cadeteria
         public List<Cadete> Cadetes { get => cadetes; set => cadetes = value; }
         public List<Pedido> Pedidos { get => pedidos; set => pedidos = value; }
 
-        /*private void CrearPedido(int numeroPedido, string observacionPedido, string nombreCliente, string direccionCliente, int telefonoCliente, string datosReferenciaDireccionCliente, int idCadete) 
+        public void CrearPedido(int numeroPedido, string observacionPedido, string nombreCliente, string direccionCliente, int telefonoCliente, string datosReferenciaDireccionCliente) 
+        {
+            Pedido pedido = new Pedido(numeroPedido, observacionPedido, nombreCliente, direccionCliente, telefonoCliente, datosReferenciaDireccionCliente);
+            this.Pedidos.Add(pedido);
+        }
+   
+        public void ReasignarPedido(int idDestino,int numeroPedido) 
+        {
+            var pedido = BuscarPedidoPorNro(numeroPedido);
+            pedido.DesasignarCadete();
+            AsignarCadeteAPedido(idDestino,numeroPedido);
+
+        }
+
+        public void AsignarCadeteAPedido(int idCadete, int idPedido) 
         {
             var cadete = BuscarCadetePorID(idCadete);
-            Pedido pedido = new Pedido(numeroPedido, observacionPedido, nombreCliente, direccionCliente, telefonoCliente, datosReferenciaDireccionCliente);
-            cadete.AgregarPedido(pedido);
+            var pedido = BuscarPedidoPorNro(idPedido);
+            pedido.AsignarCadete(cadete);
         }
-
-        public void AsignarPedido(nroPedido,IdCadete)
-        {
-        }
-
-        /*public void ReasignarPedido(int idOrigen,int idDestino,int numeroPedido) 
-        {
-            var origen = BuscarCadetePorID(idOrigen);
-            var destino = BuscarCadetePorID(idDestino);
-            var pedidoARemover = origen.ObtenerPedidoPorNumero(numeroPedido);
-            origen.EliminarPedido(pedidoARemover.Numero);
-            destino.AgregarPedido(pedidoARemover);  
-        }*/
         public double CobrarJornalVersionJoin(int idCadete)
         {
             var resultado = Cadetes
@@ -86,7 +89,6 @@ namespace _Cadeteria
             }
         }
 
-
         private Cadete BuscarCadetePorID(int idCadete) 
         {
             var cadete  = this.Cadetes.FirstOrDefault(cadete => cadete.Id == idCadete);
@@ -99,22 +101,24 @@ namespace _Cadeteria
             return cadete;
         }
 
-        /*public string GenerarInforme() 
+        public List<string> GenerarInforme() 
         {
             string intro = $"Cadeteria: {this.Nombre} | Teléfono: {this.Telefono}";
-            string cuerpo = "";
-            foreach (var cad in this.Cadetes)
+            List<string> info = new List<string>();
+            info.Add(intro);
+            foreach (var p in this.Pedidos)
             {
-                cuerpo = cuerpo + cad.InformeCadete();
+                info.Add(p.GenerarInformePedido());
             }
-            return intro + cuerpo;
-        }*/
+
+            return info;
+        }
 
 
-        /*public void BorrarPedido(int idCadete,int nroPedido) 
+        public void BorrarPedido(int nroPedido) 
         {
-            var cadete = BuscarCadetePorID(idCadete);
-            cadete.EliminarPedido(nroPedido);
-        }*/
+            var pedido = BuscarPedidoPorNro(nroPedido);
+            this.Pedidos.Remove(pedido);
+        }
     }
 }

@@ -26,6 +26,10 @@ namespace _Cadeteria
         public int Telefono { get => telefono; set => telefono = value; }
         public string DatosReferenciaDireccion { get => datosReferenciaDireccion; set => datosReferenciaDireccion = value; }
 
-       
+        public string InformacionCliente() 
+        {
+            string info = this.Nombre + "-" + this.Telefono + "-" + this.Direccion;
+            return info;
+        }
     }
 }

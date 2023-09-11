@@ -14,7 +14,7 @@ namespace _Cadeteria
         private Cliente cliente;
         private Cadete cadete;
 
-        public Pedido(int numero, string observacion, string nombre, string direccion, int telefono, string datosReferenciaDireccion, Cadete cadete)
+        /*public Pedido(int numero, string observacion, string nombre, string direccion, int telefono, string datosReferenciaDireccion, Cadete cadete)
         {
             this.numero = numero;
             this.observacion = observacion;
@@ -22,6 +22,15 @@ namespace _Cadeteria
             Cliente clienteAsignado = new Cliente(nombre, direccion, telefono, datosReferenciaDireccion);
             this.Cliente = clienteAsignado;
             this.Cadete = cadete;
+        }*/
+
+        public Pedido(int numero, string observacion, string nombre, string direccion, int telefono, string datosReferenciaDireccion)
+        {
+            this.numero = numero;
+            this.observacion = observacion;
+            this.estado = false;
+            Cliente clienteAsignado = new Cliente(nombre, direccion, telefono, datosReferenciaDireccion);
+            this.Cliente = clienteAsignado;   
         }
 
         public int Numero { get => numero; set => numero = value; }
@@ -35,17 +44,36 @@ namespace _Cadeteria
             return this.cliente.Direccion;
         }
 
+        public void AsignarCadete(Cadete cadete) 
+        {
+            this.Cadete = cadete;
+        }
         public string VerDatosDelCliente()
         {
             string datos = this.Cliente.Nombre + "-" + this.cliente.Telefono 
              + "-" + this.cliente.Direccion + "-" + this.cliente.DatosReferenciaDireccion;
             return datos;   
         }
+        public void DesasignarCadete() 
+        {
+            this.Cadete = null;
+        }
 
+        public void CambiarEstado() 
+        {
+            if (this.Estado)
+            {
+                this.Estado = false;
+            }
+            else
+            {
+                this.Estado = true;
+            }
+        }
         public string GenerarInformePedido()
         {
             string informe = $"Numero:{this.Numero} | Observacion:{this.Observacion} | Estado:{this.Estado}";
-            informe = informe + "| Datos CLiente: " + this.VerDatosDelCliente();
+            informe = informe + " | " + this.Cliente.InformacionCliente() + " | " + this.Cadete.GetInformacionCadete() ;
             return informe;
         }
 
